@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+    <h3 class="image_header">Please upload a photo of a spot!</h3>
+    <br>
+
+    <form method="post" enctype="multipart/form-data" action="predict">
+
+     {% csrf_token %}
+
+     <div class="wrapper">
+           <label class="btn btn-primary upload-photo">
+                <i class="fa fa-image"></i>Choose a photo!<input class="upload-photo" style="display: none;"  name="filePath" type="file">
+           </label>
+
+           <label class="btn btn-primary upload-photo">Submit<input type="submit" style="display: none;"></label>
+     </div>
+
+     <br>
+        <div >
+            <div class="card photo photo1">
+            <img src={{filePathName}} alt='imagename'  class="card-img-top " style="opacity: 10">
+
+            <div class="card-body ">
+                {{filePathName}}
+            </div>
+        </div>
+        </div>
+
+
+
+    </form>
+    <br>
+
+
+{% endblock %}
+

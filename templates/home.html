@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+    <h1 class="head-1">Stay Healthy</h1>
+
+    <div class="wrapper">
+        <button onclick="location.href='{% url 'image_upload' %}'"  class="button">Check Your Skin</button>
+    </div>
+
+    <h3 class="head-3">With SkinCode, don't miss any high risk spots.</h3>
+
+    <h4 class="head-4">{{ total_users }}</h4>
+    <h4 class="head-4" style="top: 60%;">Skin Code Users</h4>
+
+
+{% endblock %}
