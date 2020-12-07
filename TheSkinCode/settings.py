@@ -75,10 +75,17 @@ WSGI_APPLICATION = 'TheSkinCode.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        "CLIENT": {
+            "name": "skincodedb",
+            "host": "mongodb+srv://skincodeuser:skincodepassword@cluster0.0lzc9.mongodb.net/skincodedb?retryWrites=true&w=majority",
+            "username": "skincodeuser",
+            "password": "skincodepassword",
+            "authMechanism": "SCRAM-SHA-1",
+        }
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

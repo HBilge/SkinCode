@@ -1,4 +1,4 @@
-#!C:\Users\ugurh\PycharmProjects\djangoProject\TheSkinCode\venv\Scripts\python.exe
+#!c:\users\ugurh\pycharmprojects\djangoproject\theskincode\venv\scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
