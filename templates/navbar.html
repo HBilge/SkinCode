@@ -19,8 +19,8 @@
           About
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">How to Use SkinCode?</a>
-          <a class="dropdown-item" href="#">xx</a>
+          <a class="dropdown-item" href="{% url 'about' %}">About SkinCode</a>
+          <a class="dropdown-item" href="{% url 'system' %}">How to use SkinCode?</a>
 
         </div>
       </li>
@@ -29,7 +29,7 @@
           Skin Cancer
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">How to Use SkinCode?</a>
+          <a class="dropdown-item" href="#">About SkinCode</a>
           <a class="dropdown-item" href="#">xx</a>
 
         </div>
@@ -47,7 +47,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu2" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item" href="/logout">Sign Out<span class="sr-only">(current)</span></a>
-                      <a class="dropdown-item" href="#">Profile</a>
+                      <a class="dropdown-item" href="{% url 'view_profile' %}">Profile</a>
 
                     </div>
                  </li>

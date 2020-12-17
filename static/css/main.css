@@ -94,7 +94,7 @@ html {
 }
 
 .moveright{
-    padding-left: 61.4rem !important;
+    padding-left: 61.1rem !important;
 }
 
 .user_card {
@@ -150,3 +150,14 @@ html {
         padding: 35px;
         margin-top: 10px;
     }
+
+* {
+   box-sizing: border-box;
+}
+
+.imageColumn {
+   float: left;
+   width: 11rem;
+    height: 11rem;
+   padding: 10px;
+}

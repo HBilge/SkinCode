@@ -1,13 +1,20 @@
 from .forms import *
 import arrow as arrow
 from django.shortcuts import render, redirect
-
+from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm
 
 from django.core.files.storage import FileSystemStorage
+
+from keras.preprocessing import image
+import json
+import tensorflow as tf
+from tensorflow import Graph
+
+from keras.models import load_model
 
 
 def registerUser(request):
@@ -61,21 +68,63 @@ def image_upload(request):
     context = {'a': 1}
     return render(request, 'image_upload.html', context)
 
+
+img_height, img_width = 75, 100
+with open('./models/sample.json', 'r') as f:
+    labelInfo = json.load(f)
+
+labelInfo = json.loads(labelInfo)
+
+
+model_graph = Graph()
+with model_graph.as_default():
+    tf_session = tf.compat.v1.Session()
+    with tf_session.as_default():
+        model = load_model('./models/mymodel.h5')
+
+
 def predict(request):
 
-    print(request)
-    print(request.POST.dict())
     fileObj = request.FILES['filePath']
     fs = FileSystemStorage()
 
     datetoday = arrow.now().format('YYYY-MM-DD')
     filedate = datetoday
 
-    filePathName = fs.save(filedate, fileObj)
+    filePathName = fs.save(fileObj.name, fileObj)
     filePathName = fs.url(filePathName)
 
+    testimage = '.' + filePathName
+    img = image.load_img(testimage, target_size=(img_height, img_width))
+    x = image.img_to_array(img)
+    x = x / 255
+    x = x.reshape(1, img_height, img_width, 3)
+    with model_graph.as_default():
+        with tf_session.as_default():
+            predi = model.predict(x)
 
-    context = {'filePathName': filePathName}
+    import numpy as np
+    predictedLabel = labelInfo[str(np.argmax(predi[0]))]
+
+    msg = "Result is: "
+    filedate = filedate
+
+    context = {'filePathName': filePathName, 'predictedLabel': predictedLabel, "msg": msg, "filedate": filedate}
     return render(request, 'image_upload.html', context)
 
 
+
+@login_required(login_url='login')
+def view_profile(request):
+    import os
+    listOfImages = os.listdir('./media/')
+    listOfImagesPath = ['./media/' + i for i in listOfImages]
+    context = {'listOfImagesPath': listOfImagesPath}
+    return render(request, 'view_profile.html', context)
+
+
+def about(request):
+    return render(request, "about.html")
+
+def system(request):
+    return render(request, "system.html")

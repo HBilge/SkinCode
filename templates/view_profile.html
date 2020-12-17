@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+
+    <div style="margin-left: 25px; margin-top: 25px;";>
+
+
+            {% for i in listOfImagesPath %}
+
+                <div class="col-md-6 imageColumn">
+
+                    <img src={{ i }} style="width: 100%;  float: left;"> <br>
+                 {{ filedate }}
+
+                </div>
+
+            {% endfor%}
+
+
+    </div>
+
+{%  endblock %}

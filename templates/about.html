@@ -1,0 +1,56 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+
+</head>
+<body>
+
+<div class="container" style="margin-top: 85px">
+
+  <div class="card">
+    <div class="card-body">
+
+      <h4 class="card-title" style="text-align: center">About SkinCode</h4>
+      <p class="card-text">
+
+
+           <p>SkinCode is a skin cancer detection web application which gives predictions for skin cancer by
+            using trained neural networks. Users can check their skin regularly, and keep track of changes
+            in their skin spots. On the other hand, it gives advice and recommendations to overcome the
+            disease.
+            </p>
+
+            <p>The technology used allows users to upload images of spots into the system. The images
+            uploaded should be high-quality skin spots. Based on the trained neural networks, the system
+            analyzes the image and gives predictions as cancer or not. The images that users uploaded are
+            saved to the database so that the users can check their profile and monitor changes in their skin.</p>
+
+            <p>The system gives advice along with the risk assessments. It aims to better explain this cancer
+            type and prevention ways. On the other hand, it gives recommendations for dermatologists.</p>
+
+            <p>The purpose of this application is to allow users to periodically check the skin and keep track
+            of changes in the spots, as well as to educate users about skin cancer, what causes it, how it is treated, and how to avoid it.</p>
+
+            <p>SkinCode helps to diagnose skin cancer at an early stage when the chance of treatment is high.
+            With trained neural networks, the system analyzes the image of a skin spot and give a prediction
+            result along with advice on what you should do next. On the other hand, it gives
+            recommendations for doctors.</p>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+{% endblock %}
