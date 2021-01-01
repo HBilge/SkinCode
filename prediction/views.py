@@ -58,8 +58,6 @@ def home(request):
 
     users = User.objects.all()
     total_users = users.count()
-
-
     context = {'total_users': total_users}
     return render(request, 'home.html', context)
 
@@ -107,19 +105,26 @@ def predict(request):
     predictedLabel = labelInfo[str(np.argmax(predi[0]))]
 
     msg = "Result is: "
+    message = "Please look at our recommendations for dermatologists"
     filedate = filedate
 
-    context = {'filePathName': filePathName, 'predictedLabel': predictedLabel, "msg": msg, "filedate": filedate}
+    context = {'filePathName': filePathName, 'predictedLabel': predictedLabel, "msg": msg, "message": message, "filedate": filedate}
+    request.session["filedate"] = context["filedate"]
+    request.session["predictedLabel"] = context["predictedLabel"]
     return render(request, 'image_upload.html', context)
 
 
 
 @login_required(login_url='login')
 def view_profile(request):
+
     import os
+    context = {}
     listOfImages = os.listdir('./media/')
     listOfImagesPath = ['./media/' + i for i in listOfImages]
-    context = {'listOfImagesPath': listOfImagesPath}
+    context["filedate"] = request.session.get("filedate")
+    context["listOfImagesPath"] = listOfImagesPath
+    context["predictedLabel"] = request.session.get("predictedLabel")
     return render(request, 'view_profile.html', context)
 
 
@@ -128,3 +133,13 @@ def about(request):
 
 def system(request):
     return render(request, "system.html")
+
+@login_required(login_url='login')
+def doctors(request):
+    return render(request, "doctors.html")
+
+def skincancer(request):
+    return render(request, "cancer.html")
+
+def cancertypes(request):
+    return render(request, "cancertypes.html")

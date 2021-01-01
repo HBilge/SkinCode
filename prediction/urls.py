@@ -19,7 +19,9 @@ urlpatterns = [
     path('view_profile', views.view_profile, name='view_profile'),
     path('about/', views.about, name='about'),
     path('system/', views.system, name='system'),
-
+    path('doctors/', views.doctors, name='doctors'),
+    path('skincancer/', views.skincancer, name='skincancer'),
+    path('cancertypes/', views.cancertypes, name='cancertypes'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
