@@ -1,0 +1,49 @@
+{% extends 'main.html' %}
+{% load static %}
+
+<style>
+
+* {
+  box-sizing: border-box;
+
+}
+
+.your-img {
+    height: 50px;
+    width: 50px;
+}
+
+</style>
+{% block content %}
+<div class="container" style="margin-top: 3%">
+   <div class="row ">
+        <div class="col-md-4">
+            <img style="width: 75%; height: 90%" src="{% static "images/firstdoctor.png" %}">
+            <h5 style="margin-left: 75px">Nick Nurse</h5>
+        </div>
+       <div class="col-md-4 your-img">
+            <img style="width: 75%; height: 90%" src="{% static "images/seconddoctor.png" %}">
+           <h5 style="margin-left: 55px">Çağla Büyükakçay</h5>
+       </div>
+       <div class="col-md-4 your-img">
+             <img style="width: 75%; height: 90%" src="{% static "images/thirddoctor.png" %}">
+             <h5 style="margin-left: 50px">Hakeem Olajuwon</h5>
+       </div>
+       <div class="col-md-4 your-img">
+             <img style="width: 75%; height: 90%" src="{% static "images/fourthdoctor.png" %}">
+           <h5 style="margin-left: 60px">Simona Halep</h5>
+       </div>
+       <div class="col-md-4">
+            <img style="width: 75%; height: 90%" src="{% static "images/fifthdoctor.png" %}">
+           <h5 style="margin-left: 40px">Carla Suarez Navarro</h5>
+       </div>
+       <div class="col-md-4">
+            <img style="width: 75%; height: 90%" src="{% static "images/sixthdoctor.png" %}">
+           <h5 style="margin-left: 70px">Fred Vanvleet</h5>
+       </div>
+
+   </div>
+</div>
+
+
+{% endblock %}
