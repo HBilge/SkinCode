@@ -1,7 +1,7 @@
 from .forms import *
 import arrow as arrow
 from django.shortcuts import render, redirect
-from .models import *
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -80,6 +80,8 @@ with model_graph.as_default():
     with tf_session.as_default():
         model = load_model('./models/mymodel.h5')
 
+from numpy import asarray
+from PIL import Image
 
 def predict(request):
 
@@ -94,21 +96,27 @@ def predict(request):
 
     testimage = '.' + filePathName
     img = image.load_img(testimage, target_size=(img_height, img_width))
-    x = image.img_to_array(img)
-    x = x / 255
+
+    x = asarray(img)
+    x = x.astype('float32')
+    mean, std = x.mean(), x.std()
+    x = (x - mean) / std
+
     x = x.reshape(1, img_height, img_width, 3)
     with model_graph.as_default():
         with tf_session.as_default():
             predi = model.predict(x)
 
     import numpy as np
-    predictedLabel = labelInfo[str(np.argmax(predi[0]))]
+    predictedLabel = labelInfo[str(np.argmax(predi))]
+    prediction_probability = np.max(predi)
+    #prediction_probability = predi
 
     msg = "Result is: "
     message = "Please look at our recommendations for dermatologists"
     filedate = filedate
 
-    context = {'filePathName': filePathName, 'predictedLabel': predictedLabel, "msg": msg, "message": message, "filedate": filedate}
+    context = {'filePathName': filePathName, 'predictedLabel': predictedLabel, "prediction_probability": prediction_probability, "msg": msg, "message": message, "filedate": filedate}
     request.session["filedate"] = context["filedate"]
     request.session["predictedLabel"] = context["predictedLabel"]
     return render(request, 'image_upload.html', context)

@@ -27,7 +27,7 @@
                     {{ filedate }}
                 </div>
                 </div>
-                     <h3 style="text-align: center; margin-top: 3%">{{ msg }} {{ predictedLabel }}</h3>
+                     <h4 style="text-align: center; margin-top: 3%">{{ msg }} {{ predictedLabel }} with probability of {{ prediction_probability }}</h4>
                      <h4 style="text-align: center; margin-top: 2%">{{ message }}<a href={% url "doctors" %}> here!</a></h4>
             {% endif %}
         </div>
