@@ -1,7 +1,13 @@
+import base64
+import pickle
+from datetime import datetime
+
+from PIL import Image
+
 from .forms import *
 import arrow as arrow
 from django.shortcuts import render, redirect
-
+from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -15,6 +21,12 @@ import tensorflow as tf
 from tensorflow import Graph
 
 from keras.models import load_model
+import matplotlib.pyplot as plt
+from pymongo import MongoClient
+
+cluster = MongoClient("mongodb+srv://skincodeuser:skincodepassword@cluster0.0lzc9.mongodb.net/skincodedb?retryWrites=true&w=majority")
+db = cluster["skincodedb"]
+collection = db["prediction_prediction"]
 
 
 def registerUser(request):
@@ -58,7 +70,8 @@ def home(request):
 
     users = User.objects.all()
     total_users = users.count()
-    context = {'total_users': total_users}
+    count = collection.count_documents({})
+    context = {'total_users': total_users, 'count': count}
     return render(request, 'home.html', context)
 
 def image_upload(request):
@@ -81,7 +94,8 @@ with model_graph.as_default():
         model = load_model('./models/mymodel.h5')
 
 from numpy import asarray
-from PIL import Image
+from bson import Binary
+import io
 
 def predict(request):
 
@@ -91,7 +105,7 @@ def predict(request):
     datetoday = arrow.now().format('YYYY-MM-DD')
     filedate = datetoday
 
-    filePathName = fs.save(fileObj.name, fileObj)
+    filePathName = fs.save(filedate, fileObj)
     filePathName = fs.url(filePathName)
 
     testimage = '.' + filePathName
@@ -108,20 +122,28 @@ def predict(request):
             predi = model.predict(x)
 
     import numpy as np
+
     predictedLabel = labelInfo[str(np.argmax(predi))]
     prediction_probability = np.max(predi)
-    #prediction_probability = predi
 
     msg = "Result is: "
     message = "Please look at our recommendations for dermatologists"
+
     filedate = filedate
 
+    imgByteArr = io.BytesIO()
+    image2 = {
+        #'data': imgByteArr.getvalue(),
+        'date': filedate,
+        'label': predictedLabel,
+    }
+    images = collection.insert_one(image2).inserted_id
+
+    # pil_img = Image.open(io.BytesIO(image3['data']))
+
+
     context = {'filePathName': filePathName, 'predictedLabel': predictedLabel, "prediction_probability": prediction_probability, "msg": msg, "message": message, "filedate": filedate}
-    request.session["filedate"] = context["filedate"]
-    request.session["predictedLabel"] = context["predictedLabel"]
     return render(request, 'image_upload.html', context)
-
-
 
 @login_required(login_url='login')
 def view_profile(request):
@@ -130,9 +152,16 @@ def view_profile(request):
     context = {}
     listOfImages = os.listdir('./media/')
     listOfImagesPath = ['./media/' + i for i in listOfImages]
-    context["filedate"] = request.session.get("filedate")
-    context["listOfImagesPath"] = listOfImagesPath
-    context["predictedLabel"] = request.session.get("predictedLabel")
+    myArray = []
+    for p in collection.find({}):
+        myArray.append(p)
+
+
+
+    mylist = zip(listOfImagesPath, myArray)
+
+    context["mylist"] = mylist
+    #context["listOfImagesPath"] = listOfImagesPath
     return render(request, 'view_profile.html', context)
 
 
