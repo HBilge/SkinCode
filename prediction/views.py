@@ -105,7 +105,7 @@ def predict(request):
     datetoday = arrow.now().format('YYYY-MM-DD')
     filedate = datetoday
 
-    filePathName = fs.save(filedate, fileObj)
+    filePathName = fs.save(fileObj.name, fileObj)
     filePathName = fs.url(filePathName)
 
     testimage = '.' + filePathName
