@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Castoro&display=swap');
+
+body{
+    font-family: 'Castoro', serif;
+    background: whitesmoke;
+}
+
+html {
+    margin:0;
+    padding: 0;
+    height: 100%;
+}
+
+.head-1 {
+    left: 0;
+    line-height: 200px;
+    margin-top: -100px;
+    position: absolute;
+    text-align: center;
+    top: 25%;
+    width: 100%;
+}
+
+.head-3 {
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 45%;
+    width: 100%;
+}
+
+.head-4{
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 55%;
+    width: 100%;
+    font-weight: bold;
+}
+
+.image_header {
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 18%;
+    width: 100%;
+}
+
+.wrapper {
+    text-align: center;
+}
+
+.button {
+    position: relative;
+    top: 190px;
+    background-color: #D18665;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    height: 55px;
+    width: 225px;
+}
+
+.upload-photo{
+    position: relative;
+    top: 120px !important;
+    background: #D18665 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.navbar1{
+    background: #F9CFBC !important;
+}
+
+.dropdown-menu {
+    min-width:inherit;
+    height: 75px !important;
+}
+
+.photo1{
+    position: relative;
+    border-radius: 4px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    max-width: 13rem;
+}
+
+.thick {
+  font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.moveright{
+    padding-left: 61.1rem !important;
+}
+
+.user_card {
+    width: 350px;
+    margin-top: 100px;
+    margin-bottom: auto;
+    background: #F9CFBC;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+}
+
+.form_container {
+    margin-top: 20px;
+}
+
+#form-title{
+    color: #D18665;
+
+}
+.login_btn {
+    width: 100%;
+
+    color: black !important;
+}
+.login_btn:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+.login_container {
+    padding: 0 2rem;
+}
+.input-group-text {
+    background: #D18665 !important;
+    color: white !important;
+    border: 0 !important;
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+.input_user,
+.input_pass:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+
+#messages{
+        color: black;
+        padding: 35px;
+        margin-top: 10px;
+    }
+
+* {
+   box-sizing: border-box;
+}
+
+.imageColumn {
+   float: left;
+   width: 11rem;
+    height: 11rem;
+   padding: 10px;
+}
