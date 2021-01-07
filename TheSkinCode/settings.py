@@ -141,3 +141,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 django_heroku.settings(locals(), databases=False)
 
 BASE_URL = "https://cloud.mongodb.com/"
+SECURE_SSL_REDIRECT = True
