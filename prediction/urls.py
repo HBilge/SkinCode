@@ -18,6 +18,7 @@ urlpatterns = [
     path('doctors/', views.doctors, name='doctors'),
     path('skincancer/', views.skincancer, name='skincancer'),
     path('cancertypes/', views.cancertypes, name='cancertypes'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

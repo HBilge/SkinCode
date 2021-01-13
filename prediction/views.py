@@ -1,28 +1,18 @@
-import base64
-import pickle
-from datetime import datetime
-
-from PIL import Image
-
 from .forms import *
 import arrow as arrow
 from django.shortcuts import render, redirect
-from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm
-
 from django.core.files.storage import FileSystemStorage
-
 from keras.preprocessing import image
 import json
 import tensorflow as tf
 from tensorflow import Graph
-
 from keras.models import load_model
-import matplotlib.pyplot as plt
 from pymongo import MongoClient
+
 
 cluster = MongoClient("mongodb+srv://skincodeuser:skincodepassword@cluster0.0lzc9.mongodb.net/skincodedb?retryWrites=true&w=majority")
 db = cluster["skincodedb"]
@@ -42,6 +32,7 @@ def registerUser(request):
     context = {'form': form}
     return render(request, 'register.html', context)
 
+
 def loginUser(request):
 
     if request.method == 'POST':
@@ -60,6 +51,7 @@ def loginUser(request):
     context = {}
     return render(request, 'login.html', context)
 
+
 def logoutUser(request):
     logout(request)
     return redirect('login')
@@ -73,6 +65,7 @@ def home(request):
     count = collection.count_documents({})
     context = {'total_users': total_users, 'count': count}
     return render(request, 'home.html', context)
+
 
 def image_upload(request):
 
@@ -94,12 +87,13 @@ with model_graph.as_default():
         model = load_model('./models/mymodel.h5')
 
 from numpy import asarray
-from bson import Binary
-import io
+import boto3
+from botocore.client import Config
+
 
 def predict(request):
 
-    fileObj = request.FILES['filePath']
+    fileObj = request.FILES.get('filePath', None)
     fs = FileSystemStorage()
 
     datetoday = arrow.now().format('YYYY-MM-DD')
@@ -110,6 +104,26 @@ def predict(request):
 
     testimage = '.' + filePathName
     img = image.load_img(testimage, target_size=(img_height, img_width))
+
+    img2 = open(testimage,'rb')
+
+    AWS_ACCESS_KEY_ID = 'AKIAV2CCWSUXN2IHDHDR'
+    AWS_SECRET_ACCESS_KEY = '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'
+    AWS_STORAGE_BUCKET_NAME = 'skincode'
+    S3_BASE_URL = "https://skincode.s3.eu-central-1.amazonaws.com/"
+    AWS_S3_FILE_OVERWRITE = False
+
+    s3 = boto3.resource(
+        's3',
+        aws_access_key_id=AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+        config=Config(signature_version='s3v4')
+    )
+
+    s3.Bucket(AWS_STORAGE_BUCKET_NAME).put_object(Key = fileObj.name , Body=img2)
+
+    url = f"{S3_BASE_URL}{fileObj.name}"
+    request.session["url"] = url
 
     x = asarray(img)
     x = x.astype('float32')
@@ -131,39 +145,26 @@ def predict(request):
 
     filedate = filedate
 
-    imgByteArr = io.BytesIO()
     image2 = {
-        #'data': imgByteArr.getvalue(),
         'date': filedate,
         'label': predictedLabel,
+        'url': url,
     }
     images = collection.insert_one(image2).inserted_id
+    context = {'url':url, 'predictedLabel': predictedLabel, "prediction_probability": prediction_probability, "msg": msg, "message": message, "filedate": filedate}
 
-    # pil_img = Image.open(io.BytesIO(image3['data']))
-
-
-    context = {'filePathName': filePathName, 'predictedLabel': predictedLabel, "prediction_probability": prediction_probability, "msg": msg, "message": message, "filedate": filedate}
     return render(request, 'image_upload.html', context)
 
 @login_required(login_url='login')
 def view_profile(request):
 
-    import os
     context = {}
-    listOfImages = os.listdir('./media/')
-    listOfImagesPath = ['./media/' + i for i in listOfImages]
-    myArray = []
+    images = []
     for p in collection.find({}):
-        myArray.append(p)
+        images.append(p)
 
-
-
-    mylist = zip(listOfImagesPath, myArray)
-
-    context["mylist"] = mylist
-    #context["listOfImagesPath"] = listOfImagesPath
+    context["images"] = images
     return render(request, 'view_profile.html', context)
-
 
 def about(request):
     return render(request, "about.html")

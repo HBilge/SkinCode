@@ -26,7 +26,7 @@ SECRET_KEY = 'p$i#iv2b$19y^3t3i0&m@^rk$p_z_e2@c7d1wyaxrd#140$gbz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'prediction',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -124,15 +125,43 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
-
-
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static')
+# ]
+#
+#
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 BASE_URL = "https://cloud.mongodb.com/"
+
+
+AWS_ACCESS_KEY_ID = 'AKIAV2CCWSUXN2IHDHDR'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'theskincode'
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+AWS_DEFAULT_ACL = 'public-read'
+
+AWS_LOCATION = 'static'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+ ]
+
+STATICFILES_LOCATION = 'static'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'TheSkinCode.storage_backends.StaticStorage'
+
+
+
+
+
+
+
+
+
+
 
