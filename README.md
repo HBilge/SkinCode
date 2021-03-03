@@ -11,7 +11,7 @@
 ## 4. Upload Photo
 ![image](https://user-images.githubusercontent.com/61224886/109673053-afc9bc80-7b86-11eb-87f2-822ff1e3ee00.png)
 ## 5. Prediction 
-![image](https://user-images.githubusercontent.com/61224886/109673152-ca039a80-7b86-11eb-92f3-fb38b2ff9f2b.png)
+![image](https://user-images.githubusercontent.com/61224886/109779070-a0924f80-7c16-11eb-8bd6-e4cc16dc5687.png)
 ## 6. Doctor Recommendations
 ![image](https://user-images.githubusercontent.com/61224886/109673206-d851b680-7b86-11eb-89df-81f5d7062706.png)
 ## 7. Profile
